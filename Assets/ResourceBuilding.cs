@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace Assets
 {
@@ -57,6 +58,21 @@ namespace Assets
             get { return resourcesGenerated; }
         }
 
+        public override GameManager GameManager
+        {
+            get
+            {
+                return gameManager;
+            }
+
+            set
+            {
+                gameManager = value;
+            }
+        }
+
+        public override GameObject UnityObject { get { return unityObject; } set { unityObject = value; } }
+
         public ResourceBuilding(int x, int y, int hp, int teamNum, string type, int resourcesGenerated, int resourcesGenPerRound, int poolRemaining) : base(x,y,hp,teamNum, '$')
         {
             this.type = type;
@@ -80,7 +96,7 @@ namespace Assets
             else
             {
                 //no resources left...
-                Debug.WriteLine("No resources remaining for team " + Team);
+               // Debug.WriteLine("No resources remaining for team " + Team);
             }
             
         }

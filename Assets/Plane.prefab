@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33586319376602646}
   - component: {fileID: 64591626206561124}
   - component: {fileID: 23886703866310262}
+  - component: {fileID: 114173721635312810}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -36,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1388462615121392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3631617, y: 1, z: 1.6490073}
+  m_LocalPosition: {x: 10.7, y: 0, z: 11.9}
+  m_LocalScale: {x: 3.262643, y: 2.1947145, z: 3.6191003}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7d2135d556d18a94dbbf92a9b021a837, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +94,37 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114173721635312810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388462615121392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a85a976584d6f649a98aaee438e1558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlueCube: {fileID: 1029034287775220, guid: e7e49a27bb1ed464a871bc3f14b27fbb, type: 2}
+  BlueFinalRanged: {fileID: 1834785378749982, guid: f9fe8be2e1f5b8a4a8271d45e6e7e0db,
+    type: 2}
+  RedCube: {fileID: 1591665035995326, guid: 8407e8b4750f74842b1f0d290c16f112, type: 2}
+  RedCylinder: {fileID: 1534914713383252, guid: a1ed7a91a8364ed4f9dcb16fe81f1ecc,
+    type: 2}
+  GreenSphere: {fileID: 1888797907182336, guid: 7e29aa6d553d1c247b8792630cb4dd6b,
+    type: 2}
+  BlueResourceBuilding: {fileID: 1556574008282052, guid: 59653c89e07fa6c45b6847ca48450823,
+    type: 2}
+  RedResourceBuilding: {fileID: 1543991822549548, guid: 11810753c44d2024ba886f316f9b2922,
+    type: 2}
+  BlueFactoryBuilding: {fileID: 1798345456560184, guid: 7b3588dd34b21de49b661744702ca91d,
+    type: 2}
+  RedFactoryBuilding: {fileID: 1634985217670326, guid: f6d1c97bd7f22794d8cce44e3008d2f1,
+    type: 2}
+  RedFinalRanged: {fileID: 1241096522828682, guid: ffe04cbcc21a4f1449e21ee10df7821c,
+    type: 2}
+  movementSpeed: 1

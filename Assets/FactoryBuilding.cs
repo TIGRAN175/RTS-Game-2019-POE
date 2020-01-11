@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace Assets
 {
@@ -53,6 +54,20 @@ namespace Assets
             set { symbol = value; }
         }
 
+        public override GameManager GameManager
+        {
+            get
+            {
+                return gameManager;
+            }
+
+            set
+            {
+                gameManager = value;
+            }
+        }
+
+        public override GameObject UnityObject { get { return unityObject; } set { unityObject = value; } }
 
         public FactoryBuilding(int x, int y, int hp, int teamNum, int unitType, int productionSpeed, Map map) : base(x, y, hp, teamNum, 'F')
         {
@@ -88,16 +103,18 @@ namespace Assets
 
             //otherwise spawn:
 
-            Random rand = new Random();
+            System.Random rand = new System.Random();
             if(unitType == 0)
             {
                 //meelee
                 MeeleeUnit m = new MeeleeUnit(spawnX, spawnY, team, map.meeleeNames[rand.Next(0, map.meeleeNames.Length)] );
+                m.GameManager = gameManager;
                 map.PlaceUnit(m);
             }else if(unitType == 1)
             {
                 //ranged
                 RangedUnit r = new RangedUnit(spawnX, spawnY, team, map.rangedNames[rand.Next(0, map.rangedNames.Length)]);
+                r.GameManager = gameManager;
                 map.PlaceUnit(r);
 
             }

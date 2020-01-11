@@ -13,7 +13,7 @@ namespace Assets
         }
     }
     [Serializable]
-    abstract class Unit
+    abstract public class Unit
     {
         
         protected int xPos, yPos, health, maxHealth, speed, attack, attackRange, team;
@@ -21,6 +21,7 @@ namespace Assets
         protected char symbol;
         protected bool isAttacking;
         protected GameObject unityObject;
+        protected GameManager gameManager;
 
         public Unit(int xPos, int yPos, int maxHealth, int speed, int attack, int attackRange,int team, char symbol, string name)
         {
@@ -45,6 +46,8 @@ namespace Assets
         public abstract string ToString();
         public abstract void Save();
 
+
+        public abstract GameManager GameManager { get; set; }
         public abstract GameObject UnityObject { get; set; }
         public abstract int Team { get; set; }
         public abstract string Name { get; set; }

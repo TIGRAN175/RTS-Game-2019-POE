@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets
 {
 
-    class Map
+    public class Map
     {
         public readonly string[] meeleeNames = { "Knight", "Foot Soldier", "Musketeer" };
         public readonly string[] rangedNames = { "Archer", "Sniper", "Artillary" };
@@ -149,6 +149,7 @@ namespace Assets
             return false;
         }
 
+
         public void GenerateMap(GameManager gameManager)
         {
             //goal is to place units on the unity plane. including correct models and colors
@@ -221,17 +222,17 @@ namespace Assets
             {
                 for (int j = 0; j < MAP_COLS; j++)
                 {
-                    unitMap[i, j] = null;
-                   // myGrid.Rows[i].Cells[j].Style.BackColor = Color.White;
-                   // myGrid.Rows[i].Cells[j].Value = "";
+                    unitMap[i, j].GameManager.DestroyGameObject(unitMap[i, j].UnityObject); //remove from the unity plane
+                    unitMap[i, j] = null; //remove from the map datastructure
+
                 }
             }
 
             //clear buildings
             foreach (Building b in buildingList)
             {
-               // myGrid.Rows[b.XPos].Cells[b.YPos].Style.BackColor = Color.White;
-               // myGrid.Rows[b.XPos].Cells[b.YPos].Value = "";
+                b.GameManager.DestroyGameObject(b.UnityObject);
+ 
             }
             buildingList.Clear();
 
@@ -353,15 +354,14 @@ namespace Assets
         public void DestroyUnit(Unit unitToDestroy)
         {
             unitMap[unitToDestroy.XPos, unitToDestroy.YPos] = null;
-           // myGrid[unitToDestroy.YPos, unitToDestroy.XPos].Style.BackColor = Color.White;
-            //myGrid[unitToDestroy.YPos, unitToDestroy.XPos].Value = "";
+            unitToDestroy.GameManager.DestroyGameObject(unitToDestroy.UnityObject);
+  
         }
 
         public void DestroyBuidling(Building buildingToDestroy)
         {
             buildingList.Remove(buildingToDestroy);
-           // myGrid[buildingToDestroy.YPos, buildingToDestroy.XPos].Style.BackColor = Color.White;
-           // myGrid[buildingToDestroy.YPos, buildingToDestroy.XPos].Value = "";
+            buildingToDestroy.GameManager.DestroyGameObject(buildingToDestroy.UnityObject);
 
 
         }
@@ -378,45 +378,20 @@ namespace Assets
             unit.MoveToPosition(rowIndexToMove, colIndexToMove);
             unitMap[currX, currY] = null;
             unitMap[rowIndexToMove, colIndexToMove] = unit;
-           // myGrid[colIndexToMove, rowIndexToMove].Value = "" + unit.Symbol;
-            //myGrid[currY, currX].Style.BackColor = Color.White;
 
 
-           // Color colorToSet = Color.White;
-            if (unit.Team == 0)
-            {
-              //  colorToSet = Color.Aqua;
-            }
-            else if (unit.Team == 1)
-            {
-               // colorToSet = Color.Red;
-            }else if(unit.Team == 2)
-            {
-                //colorToSet = Color.Orange;
-            }
-           // myGrid[colIndexToMove, rowIndexToMove].Style.BackColor = colorToSet;
-            //myGrid[currY, currX].Value = "";
+            //need to move to coordinates in the unity plane
+
+            //unit.GameManager.printToConsole(unit.ToString());
+            unit.GameManager.MoveUnitTowards(new Vector3(rowIndexToMove, 0, colIndexToMove), unit.UnityObject);
+
         }
 
-        //NB modify for task 3
         public void PlaceUnit(Unit unit)
         {
-           // Color colorToSet = Color.White;
-            if (unit.Team == 0)
-            {
-             //   colorToSet = Color.Aqua;
-            }
-            else if (unit.Team == 1)
-            {
-               // colorToSet = Color.Red;
-            }else if(unit.Team == 2)
-            {
-              //  colorToSet = Color.Orange;
-
-            }
+           
             unitMap[unit.XPos, unit.YPos] = unit; // add to unitMap
-          //  myGrid[unit.YPos, unit.XPos].Style.BackColor = colorToSet; //actual screen grid
-            //myGrid[unit.YPos, unit.XPos].Value = "" + unit.Symbol;
+            unit.UnityObject = unit.GameManager.FactorySpawnUnit(unit);
         }
 
         public List<Unit> GetUnitList()
@@ -503,28 +478,5 @@ namespace Assets
             return null;
         }
 
-        public String PrintMap()
-        {
-            String o = "";
-            for (int i = 0; i < MAP_ROWS; i++)
-            {
-                for (int j = 0; j < MAP_COLS; j++)
-                {
-                    if (unitMap[i, j] != null)
-                    {
-                        // Console.Write(unitMap[i,j].ToString() + "|");
-                        o += unitMap[i, j].Symbol + "|";
-                    }
-                    else
-                    {
-                        o += "  |";
-                    }
-
-                }
-                //Console.WriteLine();
-                o += "\n";
-            }
-            return o;
-        }
     }
 }

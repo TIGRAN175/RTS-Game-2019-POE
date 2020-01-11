@@ -73,6 +73,18 @@ namespace Assets
             set { attackRange = value; }
         }
 
+        public override GameManager GameManager
+        {
+            get
+            {
+                return gameManager;
+            }
+
+            set
+            {
+                gameManager = value;
+            }
+        }
 
         public override bool AttackUnit(Unit unitToAttack, Map map)
         {

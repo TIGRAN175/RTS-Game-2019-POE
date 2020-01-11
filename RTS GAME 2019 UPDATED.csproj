@@ -13,14 +13,12 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -286,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Building.cs" />
+    <Compile Include="Assets\CameraHandler.cs" />
     <Compile Include="Assets\FactoryBuilding.cs" />
     <Compile Include="Assets\GameEngine.cs" />
     <Compile Include="Assets\GameManager.cs" />
@@ -294,6 +293,7 @@
     <Compile Include="Assets\RangedUnit.cs" />
     <Compile Include="Assets\ResourceBuilding.cs" />
     <Compile Include="Assets\Unit.cs" />
+    <Compile Include="Assets\UnitDamageHandler.cs" />
     <Compile Include="Assets\Wizard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

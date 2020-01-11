@@ -1,10 +1,10 @@
 ﻿using System;
-
+using UnityEngine;
 
 namespace Assets
 {
     [Serializable]
-    abstract class Building
+    abstract public class Building
     {
         protected int xPos;
         protected int yPos;
@@ -12,6 +12,9 @@ namespace Assets
         protected int maxHealth;
         protected int team;
         protected char symbol;
+        protected GameObject unityObject;
+        protected GameManager gameManager;
+
         public Building(int xPos, int yPos, int health, int team, char symbol)
         {
             this.xPos = xPos;
@@ -22,7 +25,8 @@ namespace Assets
             maxHealth = health;
         }
 
-
+        public abstract GameManager GameManager { get; set; }
+        public abstract GameObject UnityObject { get; set; }
         public abstract int XPos { get; set; }
         public abstract int YPos { get; set; }
         public abstract int MaxHealth { get; }

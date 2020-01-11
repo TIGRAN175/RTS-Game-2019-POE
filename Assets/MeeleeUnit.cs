@@ -75,6 +75,19 @@ namespace Assets
             set { attackRange = value; }
         }
 
+        public override GameManager GameManager
+        {
+            get
+            {
+                return gameManager;
+            }
+
+            set
+            {
+                gameManager = value;
+            }
+        }
+
         public override bool AttackBuilding(Building buildingToAttack, Map map)
         {
             buildingToAttack.Health = buildingToAttack.Health - attack;
