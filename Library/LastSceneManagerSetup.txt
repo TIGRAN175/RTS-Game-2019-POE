@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/thingitwantsmetosave.unity
-  isLoaded: 1
-  isActive: 1
