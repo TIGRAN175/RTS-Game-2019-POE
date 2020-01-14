@@ -92,12 +92,20 @@ namespace Assets
             //The unitToAttack here is assumed to be in range.
             isAttacking = true;
             unitToAttack.Health = unitToAttack.Health - attack;
+
+            UnitDamageHandler h = unitToAttack.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+            unitToAttack.Health = unitToAttack.Health - attack;
+
             if (unitToAttack.Health <= 0)
              {
              unitToAttack.Health = 0;
              unitToAttack.DeathHandler(map);
                 return false;
              }
+            else
+            {
+                h.UpdateHealth(unitToAttack.Health, unitToAttack.MaxHealth);
+            }
             return true;
             
         }

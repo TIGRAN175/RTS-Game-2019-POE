@@ -383,6 +383,10 @@ namespace Assets
             //need to move to coordinates in the unity plane
 
             //unit.GameManager.printToConsole(unit.ToString());
+            if(unit.UnityObject == null)
+            {
+                unit.GameManager.printToConsole("UNITY OBJECT IS NULL --- BAD");
+            }
             unit.GameManager.MoveUnitTowards(new Vector3(rowIndexToMove, 0, colIndexToMove), unit.UnityObject);
 
         }

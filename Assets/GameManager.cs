@@ -8,16 +8,15 @@ namespace Assets
 
     public class GameManager : MonoBehaviour
     {
-        public  GameObject BlueCube;
-        public  GameObject BlueFinalRanged;
-        public  GameObject RedCube;
-        public  GameObject RedCylinder;
-        public  GameObject GreenSphere;
+        public  GameObject BlueMeelee;
+        public  GameObject BlueRanged;
+        public  GameObject RedMeelee;
+        public  GameObject RedRanged;
+        public  GameObject GreenWizard;
         public GameObject BlueResourceBuilding;
         public GameObject RedResourceBuilding;
         public GameObject BlueFactoryBuilding;
         public GameObject RedFactoryBuilding;
-        public GameObject RedFinalRanged;
 
         float currentTime = 0f;
         float startingTime = 10f;
@@ -42,12 +41,12 @@ namespace Assets
             {
                 if(u is MeeleeUnit)
                 {
-                    return Instantiate(BlueCube, actualPos, transform.rotation);
+                    return Instantiate(BlueMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
 
                 }
                 else if (u is RangedUnit)
                 {
-                    return Instantiate(BlueFinalRanged, actualPos, transform.rotation);
+                    return Instantiate(BlueRanged, actualPos, transform.rotation);
 
                 }
             }
@@ -55,12 +54,12 @@ namespace Assets
             {
                 if (u is MeeleeUnit)
                 {
-                    return Instantiate(RedCube, actualPos, transform.rotation);
+                    return Instantiate(RedMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
 
                 }
                 else if (u is RangedUnit)
                 {
-                    return Instantiate(RedCylinder, actualPos, transform.rotation);
+                    return Instantiate(RedRanged, actualPos, transform.rotation);
 
                 }
 
@@ -82,21 +81,23 @@ namespace Assets
             map = gameEngine.map;
             //map = new Map(10, 2, 20, 20);
 
-            GameObject unit = Instantiate(BlueCube, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(270, 0, 0)));
-            if(unit != null)
-            {
-                print("unit not null");
-            }
-            else
-            {
-                print("unit null");
-            }
+
+            // meelee rotations: 0, 180, -90
+            //wiz  270, 0, 0
+            //GameObject unit = Instantiate(BlueMeelee, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 180, -90)));
+           /*
+            GameObject unit = Instantiate(RedMeelee, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 180, -90)));
+
             UnitDamageHandler h = unit.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
-            //h = new UnitDamageHandler();
-            h.UpdateHealth(75, 100);
+          // h = new UnitDamageHandler();
+           h.UpdateHealth(75, 100);
+           h.UpdateHealth(50, 100);
+            
+            */
             //goal is to place units on the unity plane. including correct models and colors
-/*
+
             //bind UNITS to GameObjects
+            
             for (int i = 0; i < map.MAP_ROWS; i++)
             {
                 for (int j = 0; j < map.MAP_COLS; j++)
@@ -115,13 +116,12 @@ namespace Assets
                             if (unitToMap is MeeleeUnit)
                             {
                                 //unitToMap.UnityObject = Instantiate(BlueCube, actualPos, transform.rotation);
-                                actualPos = new Vector3(0, 0, 0);
-                                unitToMap.UnityObject = Instantiate(BlueCube, actualPos, transform.rotation);
+                                unitToMap.UnityObject = Instantiate(BlueMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
                                 
                             }
                             else if (unitToMap is RangedUnit)
                             {
-                                unitToMap.UnityObject = Instantiate(BlueCylinder, actualPos, transform.rotation);
+                                unitToMap.UnityObject = Instantiate(BlueRanged, actualPos, transform.rotation);
 
                             }
                         }
@@ -130,19 +130,19 @@ namespace Assets
                             //Red team
                             if (unitToMap is MeeleeUnit)
                             {
-                                unitToMap.UnityObject = Instantiate(RedCube, actualPos, transform.rotation);
+                                unitToMap.UnityObject = Instantiate(RedMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
 
                             }
                             else if (unitToMap is RangedUnit)
                             {
-                                unitToMap.UnityObject = Instantiate(RedCylinder, actualPos, transform.rotation);
+                                unitToMap.UnityObject = Instantiate(RedRanged, actualPos, transform.rotation);
 
                             }
                         }
                         else if (unitToMap.Team == 2)
                         {
                             //Wizards
-                            unitToMap.UnityObject = Instantiate(GreenSphere, actualPos, transform.rotation);
+                            unitToMap.UnityObject = Instantiate(GreenWizard, actualPos, Quaternion.Euler(new Vector3(270, 0, 0)));
 
                         }
                     }
@@ -184,7 +184,7 @@ namespace Assets
                     }
                 }
             }
-            */
+            
          
         }
 
@@ -194,7 +194,7 @@ namespace Assets
         int oldWholeNumber = -1;
         void Update()
         {
-            return;
+            //return;
             /*
             if (toSpawn)
             {
@@ -227,7 +227,6 @@ namespace Assets
             {
                 if ((wholeNumber) % 4 == 0)
                 {
-                    print(wholeNumber);
                     gameEngine.PerformRound();
                 }
                 oldWholeNumber = wholeNumber;
@@ -258,6 +257,11 @@ namespace Assets
 
         public IEnumerator MoveOverSeconds(GameObject objectToMove, Vector3 end, float seconds)
         {
+            if(objectToMove == null)
+            {
+                print("Trying to Move corpses");
+                yield break;
+            }
             float elapsedTime = 0;
             Vector3 startingPos = objectToMove.transform.position;
             while (elapsedTime < seconds)

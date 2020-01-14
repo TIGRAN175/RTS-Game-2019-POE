@@ -102,13 +102,19 @@ namespace Assets
             //Note that the range is checked by the map class called by the GameEngine.
             //The unitToAttack here is assumed to be in range.
 
-
             unitToAttack.Health = unitToAttack.Health - attack;
+            UnitDamageHandler h = unitToAttack.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+            unitToAttack.Health = unitToAttack.Health - attack;
+
             if (unitToAttack.Health <= 0)
             {
                 unitToAttack.Health = 0;
                 unitToAttack.DeathHandler(map);
                 return false;
+            }
+            else
+            {
+                h.UpdateHealth(unitToAttack.Health, unitToAttack.MaxHealth);
             }
             return true;
         }

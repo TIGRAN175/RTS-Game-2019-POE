@@ -249,7 +249,9 @@ namespace Assets
                     }
                     continue; // done with wizard
                 }
+                
 
+                //From here we know it is not a wizard
                 //Case 1: below health so run away
                 if ((u.Health / (double)u.MaxHealth) * 100.0 <= 25)
                 {
@@ -353,9 +355,9 @@ namespace Assets
                     // winLabel.Invoke(new Action(() => winLabel.Text = "Team " + u.Team + " has won the game!"));
                     gameManager.printToConsole("Team " + u.Team + " has won the game!");
 
-                    //StopTimer();
                     return roundCount;
                 }
+
             }
             //now round is done
             roundCount++;
@@ -363,244 +365,7 @@ namespace Assets
             return roundCount;
         }
 
-        public int TestPerformRound()
-        {
-            if (remainingRounds <= 0)
-            {
-                //done!!!
-                //print("Round Limit Reached! It's a draw!");
-                return roundCount;
-            }
-
-            List<Unit> unitList = map.GetUnitList();
-
-            for (int i = 0; i < unitList.Count; i++)
-            {
-                Unit u = unitList.ElementAt(i);
-
-                if (u is Wizard)
-                {
-                    //special wizard case
-                    if ((u.Health / (double)u.MaxHealth) * 100.0 <= 50)
-                    {
-                        map.MoveUnitRandomly(u);
-                        continue;
-                    }
-
-                    // perform special attack
-                    List<Unit> possibleUnitsToAttack = new List<Unit>();
-                    if (map.IsInMap(u.XPos - 1, u.YPos - 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos - 1, u.YPos - 1]); //topLeft
-                    }
-
-                    if (map.IsInMap(u.XPos - 1, u.YPos))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos - 1, u.YPos]);//toptop
-                    }
-
-                    if (map.IsInMap(u.XPos - 1, u.YPos + 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos - 1, u.YPos + 1]); //topRight
-                    }
-
-                    if (map.IsInMap(u.XPos, u.YPos + 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos, u.YPos + 1]); // rightRight
-                    }
-
-                    if (map.IsInMap(u.XPos + 1, u.YPos + 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos + 1, u.YPos + 1]);//bottomRight
-                    }
-
-                    if (map.IsInMap(u.XPos + 1, u.YPos))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos + 1, u.YPos]); // bottom bottom
-                    }
-
-                    if (map.IsInMap(u.XPos + 1, u.YPos - 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos + 1, u.YPos - 1]); // bottom left
-                    }
-
-                    if (map.IsInMap(u.XPos, u.YPos - 1))
-                    {
-                        possibleUnitsToAttack.Add(map.unitMap[u.XPos, u.YPos - 1]); // left left
-                    }
-
-                    //now check if there are targets at these positions
-
-                    bool hasAttacked = false;
-                    foreach (Unit victim in possibleUnitsToAttack)
-                    {
-                        if (victim != null)
-                        {
-                            if (victim.Team == 0 || victim.Team == 1)
-                            {
-                                hasAttacked = true;
-                                //blow things up
-                                bool unitIsNotDead = u.AttackUnit(victim, map);
-                                if (!unitIsNotDead)
-                                {
-                                    //unit died
-                                    if (victim.Team == 0)
-                                    {
-                                        bonusResourcesTeam0++;
-                                    }
-                                    else if (victim.Team == 1)
-                                    {
-                                        bonusResourcesTeam1++;
-                                    }
-
-                                    for (int j = 0; j < unitList.Count; j++)
-                                    {
-                                        //scan for the victim
-                                        if (unitList.ElementAt(j) == victim)
-                                        {
-                                            unitList.RemoveAt(j);
-                                            if (j < i)
-                                            {
-                                                i--; // removing the victim from the list should not affect the iteration
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-
-                    if (!hasAttacked)
-                    {
-                        Position closestEnemyPos = u.FindClosestUnitOrBuilding(map); // in this case wizard can only find units
-                        if (closestEnemyPos.x == -1)
-                        {
-                            //wizards have won!!
-                            // Debug.WriteLine("Team " + u.Team + " WINS!!! -- no enemies left");
-                            //winLabel.Invoke(new Action(() => winLabel.Text = "Wizards have won the game!!!"));
-                            // StopTimer();
-                            return roundCount;
-                        }
-                        else
-                        {
-                            //move towards nearest enemy unit
-                            map.MoveTowardsEnemy(u, closestEnemyPos.x, closestEnemyPos.y);
-
-                        }
-                    }
-                    continue; // done with wizard
-                }
-
-                //Case 1: below health so run away
-                if ((u.Health / (double)u.MaxHealth) * 100.0 <= 25)
-                {
-                    map.MoveUnitRandomly(u);
-                    continue;
-                }
-
-                //Case 2: Finding enemy and decide on attacking
-
-                //Unit closestEnemy = u.FindClosestUnitOrBuilding(map);
-                Position closestEnemyPosition = u.FindClosestUnitOrBuilding(map);
-                if (closestEnemyPosition.x != -1)
-                {
-                    // the enemy can be a building or a unit
-                    bool isEnemyAUnit = false;
-                    if (map.unitMap[closestEnemyPosition.x, closestEnemyPosition.y] != null)
-                    {
-                        //we know a the enemy is a unit and not a building
-                        isEnemyAUnit = true;
-                    }
-
-                    if (isEnemyAUnit)
-                    {
-                        Unit closestEnemy = map.unitMap[closestEnemyPosition.x, closestEnemyPosition.y];
-                        if (map.IsWithinRange(u, closestEnemy))
-                        {
-                            // we can attack
-                            bool unitIsNotDead = u.AttackUnit(closestEnemy, map);
-                            if (!unitIsNotDead)
-                            {
-                                //unit died so add resources to its pool
-                                if (closestEnemy.Team == 0)
-                                {
-                                    bonusResourcesTeam0++;
-                                }
-                                else if (closestEnemy.Team == 1)
-                                {
-                                    bonusResourcesTeam1++;
-                                }
-
-                                for (int j = 0; j < unitList.Count; j++)
-                                {
-                                    //scan for the victim
-                                    if (unitList.ElementAt(j) == closestEnemy)
-                                    {
-                                        unitList.RemoveAt(j);
-                                        if (j < i)
-                                        {
-                                            i--; // removing the victim from the list should not affect the iteration
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            //we cant attack so move towards
-                            map.MoveTowardsEnemy(u, closestEnemyPosition.x, closestEnemyPosition.y);
-                        }
-                    }
-                    else
-                    {
-                        //There must be a building to attack at this position
-                        Building buildingToAttack = null;
-                        foreach (Building b in map.buildingList)
-                        {
-                            if (b.XPos == closestEnemyPosition.x && b.YPos == closestEnemyPosition.y)
-                            {
-                                buildingToAttack = b;
-                            }
-                        }
-
-                        if (map.IsWithinRange(u, buildingToAttack))
-                        {
-                            // we can attack the building
-                            bool buildingIsNotDead = u.AttackBuilding(buildingToAttack, map); // the deathhandler will deal with a building's death. No need to worry about it here
-                            if (!buildingIsNotDead)
-                            {
-                                //killFeed.Invoke(new Action(() => AppendText(killFeed, "\nBuilding of team " + buildingToAttack.Team + " was destroyed!", ((buildingToAttack.Team == 0) ? Color.Blue : Color.Red))));
-                                // killFeed.Invoke(new Action(() => killFeed.ScrollToCaret()));
-                            }
-
-
-                        }
-                        else
-                        {
-                            //we cant attack so move towards the building
-                            map.MoveTowardsEnemy(u, closestEnemyPosition.x, closestEnemyPosition.y);
-                        }
-                    }
-                    //add units info to the killfeed
-                    //  killFeed.Invoke(new Action(() => AppendText(killFeed, "\n" + u.ToString(), ((u.Team == 0) ? Color.Blue : Color.Red))));
-                    // killFeed.Invoke(new Action(() => killFeed.ScrollToCaret()));
-                }
-                else
-                {
-                    //Debug.WriteLine("Team " + u.Team + " WINS!!! -- no enemies left");
-                    // winLabel.Invoke(new Action(() => winLabel.Text = "Team " + u.Team + " has won the game!"));
-                    //StopTimer();
-                    return roundCount;
-                }
-            }
-            //now round is done
-            roundCount++;
-            remainingRounds--;
-            return roundCount;
-        }
-
+       
 
 
     }

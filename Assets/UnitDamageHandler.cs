@@ -15,11 +15,12 @@ public class UnitDamageHandler : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        HealthBar.gameObject.SetActive(true);
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
