@@ -8,7 +8,7 @@ namespace Assets
     [Serializable]
     class Wizard : Unit
     {
-        public Wizard(int xPos, int yPos) : base(xPos, yPos, 80, 1, 100, 1, 2, 'W', "Wizard")
+        public Wizard(int xPos, int yPos) : base(xPos, yPos, 120, 1, 100, 1, 2, 'W', "Wizard")
         {
 
         }

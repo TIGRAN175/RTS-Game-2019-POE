@@ -91,11 +91,19 @@ namespace Assets
         public override bool AttackBuilding(Building buildingToAttack, Map map)
         {
             buildingToAttack.Health = buildingToAttack.Health - attack;
+
+            UnitDamageHandler h = buildingToAttack.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+            buildingToAttack.Health = buildingToAttack.Health - attack;
+
             if (buildingToAttack.Health <= 0)
             {
                 buildingToAttack.Health = 0;
                 buildingToAttack.DeathHandler(map);
                 return false;
+            }
+            else
+            {
+                h.UpdateHealth(buildingToAttack.Health, buildingToAttack.MaxHealth);
             }
             return true;
 

@@ -15,7 +15,7 @@ namespace Assets
         protected int resourcesGenerated;
         protected int resourcesGenPerRound;
         protected int poolRemaining;
-
+        public static int MAX_POOL_AMOUNT;
 
         //Properties
 
@@ -79,6 +79,7 @@ namespace Assets
             this.resourcesGenerated = resourcesGenerated;
             this.resourcesGenPerRound = resourcesGenPerRound;
             this.poolRemaining = poolRemaining;
+            MAX_POOL_AMOUNT = poolRemaining;
         }
 
         public void GenerateResourcesForRound()
@@ -97,8 +98,8 @@ namespace Assets
             {
                 //no resources left...
                // Debug.WriteLine("No resources remaining for team " + Team);
-            }
-            
+            }        
+
         }
 
         public override void DeathHandler(Map map)

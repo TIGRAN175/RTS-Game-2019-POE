@@ -44,8 +44,11 @@ namespace Assets
             int totalReasourcesFromBuildingsTeam1 = 0;
 
 
+                int buildingCountTeam0 = 0;
+                int buildingCountTeam1 = 0;
             foreach (Building b in map.buildingList)
             {
+
                 if (b is ResourceBuilding)
                 {
                     ResourceBuilding r = (ResourceBuilding)b;
@@ -56,14 +59,40 @@ namespace Assets
                     //now resourcesgenerated has been updated
                     if (r.Team == 0)
                     {
+                        buildingCountTeam0++;
                         totalReasourcesFromBuildingsTeam0 += r.ResourcesGenerated;
                     }
                     else if (r.Team == 1)
                     {
+                        buildingCountTeam1++;
                         totalReasourcesFromBuildingsTeam1 += r.ResourcesGenerated;
+                    }
+
+
+                }
+            }
+
+            //int maxResourcesTeam1 = buildingCountTeam1 * 
+            int maxResourcesT0 = buildingCountTeam0 * ResourceBuilding.MAX_POOL_AMOUNT;
+            int maxResourcesT1 = buildingCountTeam1 * ResourceBuilding.MAX_POOL_AMOUNT;
+
+            foreach (Building b in map.buildingList)
+            {
+                if(b is ResourceBuilding)
+                {
+                    UnitDamageHandler h = b.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+                    if(b.Team == 0)
+                    {
+                        h.UpdateResources(totalReasourcesFromBuildingsTeam0, maxResourcesT0);
+                    }else if(b.Team ==1)
+                    {
+                        h.UpdateResources(totalReasourcesFromBuildingsTeam1, maxResourcesT1);
                     }
                 }
             }
+
+                
+            
             gameManager.printToConsole("" + (totalReasourcesFromBuildingsTeam0 + bonusResourcesTeam0));
             gameManager.printToConsole("" + (totalReasourcesFromBuildingsTeam1 + bonusResourcesTeam1));
 
@@ -126,6 +155,22 @@ namespace Assets
                 
                 gameManager.printToConsole(b.ToString());
 
+            }
+
+            foreach (Building b in map.buildingList)
+            {
+                if (b is ResourceBuilding)
+                {
+                    UnitDamageHandler h = b.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+                    if (b.Team == 0)
+                    {
+                        h.UpdateResources(totalReasourcesFromBuildingsTeam0, maxResourcesT0);
+                    }
+                    else if (b.Team == 1)
+                    {
+                        h.UpdateResources(totalReasourcesFromBuildingsTeam1, maxResourcesT1);
+                    }
+                }
             }
             gameManager.printToConsole("" + (totalReasourcesFromBuildingsTeam0 + bonusResourcesTeam0));
             gameManager.printToConsole("" + (totalReasourcesFromBuildingsTeam1 + bonusResourcesTeam1));

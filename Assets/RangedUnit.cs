@@ -9,7 +9,7 @@ namespace Assets
     class RangedUnit : Unit
     {
 
-        public RangedUnit(int xPos, int yPos, int team, string name) : base(xPos, yPos, 50, 2, 25, 3, team, 'R', name)
+        public RangedUnit(int xPos, int yPos, int team, string name) : base(xPos, yPos, 55, 2, 25, 3, team, 'R', name)
         {
 
         }
@@ -113,11 +113,19 @@ namespace Assets
         public override bool AttackBuilding(Building buildingToAttack, Map map)
         {
             buildingToAttack.Health = buildingToAttack.Health - attack;
+
+            UnitDamageHandler h = buildingToAttack.UnityObject.GetComponent<UnitDamageHandler>() as UnitDamageHandler;
+            buildingToAttack.Health = buildingToAttack.Health - attack;
+
             if (buildingToAttack.Health <= 0)
             {
                 buildingToAttack.Health = 0;
                 buildingToAttack.DeathHandler(map);
                 return false;
+            }
+            else
+            {
+                h.UpdateHealth(buildingToAttack.Health, buildingToAttack.MaxHealth);
             }
             return true;
 

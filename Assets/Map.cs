@@ -387,7 +387,16 @@ namespace Assets
             {
                 unit.GameManager.printToConsole("UNITY OBJECT IS NULL --- BAD");
             }
+            if(unit is MeeleeUnit)
+            {
+            unit.GameManager.MoveUnitTowards(new Vector3(rowIndexToMove, 1, colIndexToMove), unit.UnityObject);
+            }
+            else
+            {
             unit.GameManager.MoveUnitTowards(new Vector3(rowIndexToMove, 0, colIndexToMove), unit.UnityObject);
+            }
+
+
 
         }
 

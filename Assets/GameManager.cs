@@ -41,7 +41,8 @@ namespace Assets
             {
                 if(u is MeeleeUnit)
                 {
-                    return Instantiate(BlueMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
+
+                    return Instantiate(BlueMeelee, new Vector3(u.XPos, 1, u.YPos), Quaternion.Euler(new Vector3(0, 180, -90)));
 
                 }
                 else if (u is RangedUnit)
@@ -54,7 +55,7 @@ namespace Assets
             {
                 if (u is MeeleeUnit)
                 {
-                    return Instantiate(RedMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
+                    return Instantiate(RedMeelee, new Vector3(u.XPos, 1, u.YPos), Quaternion.Euler(new Vector3(0, 180, -90)));
 
                 }
                 else if (u is RangedUnit)
@@ -116,7 +117,7 @@ namespace Assets
                             if (unitToMap is MeeleeUnit)
                             {
                                 //unitToMap.UnityObject = Instantiate(BlueCube, actualPos, transform.rotation);
-                                unitToMap.UnityObject = Instantiate(BlueMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
+                                unitToMap.UnityObject = Instantiate(BlueMeelee, new Vector3(unitToMap.XPos, 1, unitToMap.YPos), Quaternion.Euler(new Vector3(0, 180, -90)));
                                 
                             }
                             else if (unitToMap is RangedUnit)
@@ -130,7 +131,7 @@ namespace Assets
                             //Red team
                             if (unitToMap is MeeleeUnit)
                             {
-                                unitToMap.UnityObject = Instantiate(RedMeelee, actualPos, Quaternion.Euler(new Vector3(0, 180, -90)));
+                                unitToMap.UnityObject = Instantiate(RedMeelee, new Vector3(unitToMap.XPos, 1, unitToMap.YPos), Quaternion.Euler(new Vector3(0, 180, -90)));
 
                             }
                             else if (unitToMap is RangedUnit)
@@ -154,17 +155,15 @@ namespace Assets
             {
                 var actualPos = new Vector3(b.XPos, 0, b.YPos);
                 b.GameManager = this;
-                //grid.Rows[b.XPos].Cells[b.YPos].Value = b.Symbol;
                 if (b.Team == 0)
                 {
-                    //grid.Rows[b.XPos].Cells[b.YPos].Style.BackColor = Color.LightBlue;
                     if(b is FactoryBuilding)
                     {
-                        b.UnityObject = Instantiate(BlueFactoryBuilding, actualPos, transform.rotation);
+                        b.UnityObject = Instantiate(BlueFactoryBuilding, actualPos, Quaternion.Euler(new Vector3(270, 0, 0)));
                     }
                     else if(b is ResourceBuilding)
                     {
-                        b.UnityObject = Instantiate(BlueResourceBuilding, actualPos, transform.rotation);
+                        b.UnityObject = Instantiate(BlueResourceBuilding, actualPos, Quaternion.Euler(new Vector3(270, 0, 0)));
 
                     }
 
@@ -174,12 +173,12 @@ namespace Assets
                     //grid.Rows[b.XPos].Cells[b.YPos].Style.BackColor = Color.Pink;
                     if (b is FactoryBuilding)
                     {
-                        b.UnityObject = Instantiate(RedFactoryBuilding, actualPos, transform.rotation);
+                        b.UnityObject = Instantiate(RedFactoryBuilding, actualPos, Quaternion.Euler(new Vector3(270, 0, 0)));
 
                     }
                     else if (b is ResourceBuilding)
                     {
-                        b.UnityObject = Instantiate(RedResourceBuilding, actualPos, transform.rotation);
+                        b.UnityObject = Instantiate(RedResourceBuilding, actualPos, Quaternion.Euler(new Vector3(270, 0, 0)));
 
                     }
                 }
@@ -239,13 +238,7 @@ namespace Assets
 
         public void MoveUnitTowards( Vector3 toPos, GameObject unitToMove) 
         {
-            //var direction = (fromPos.transform.position - toPos.transform.position).normalized;
-            //unitToMove.transform.position += direction * Time.deltaTime;
-           // unitToMove.transform.position = toPos;
-
             StartCoroutine(MoveOverSeconds(unitToMove, toPos, 2f));
-
-
         }
 
         public GameObject CreateGameObject(GameObject prefab, Transform trans, Transform transRot)
